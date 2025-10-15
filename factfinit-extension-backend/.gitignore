@@ -1,0 +1,42 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# TypeScript build output
+dist/
+build/
+
+# Logs
+*.log
+fact_checker_errors.log
+
+# Editor and OS files
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Coverage reports (if you add testing)
+coverage/
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+
+# MongoDB local data (if running locally)
+data/
+mongod.lock

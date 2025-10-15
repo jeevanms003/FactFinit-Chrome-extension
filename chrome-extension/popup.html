@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FactFinit</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <style>
+    :root {
+      --primary: #8b5cf6; /* Violet-500, vibrant for buttons */
+      --primary-hover: #7c3aed; /* Violet-600 */
+      --primary-active: #6d28d9; /* Violet-700 */
+      --success: #4ade80; /* Green-400 */
+      --error: #f87171; /* Red-400 */
+      --platform: #a78bfa; /* Violet-400 */
+      --financial: #facc15; /* Yellow-400 */
+      --misleading: #ef4444; /* Red-500 */
+      --sources: #60a5fa; /* Blue-400 */
+      --bg: #111827; /* Gray-900, deeper dark */
+      --card-bg: #1f2937; /* Gray-800, darker card */
+      --text: #e5e7eb; /* Gray-200, high contrast */
+      --text-secondary: #9ca3af; /* Gray-400, softer secondary */
+      --border: #374151; /* Gray-700 */
+      --shadow-poly: 6px 6px 12px rgba(0, 0, 0, 0.4), -4px -4px 8px rgba(55, 65, 81, 0.3);
+      --shadow-inset: inset 3px 3px 6px rgba(0, 0, 0, 0.4), inset -3px -3px 6px rgba(55, 65, 81, 0.3);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      width: 400px;
+      margin: 0;
+      padding: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      background: linear-gradient(145deg, #111827, #1f2937);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 450px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-poly);
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      backdrop-filter: blur(6px); /* Stronger frosted glass */
+    }
+
+    .header {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 12px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    #url {
+      font-size: 13px;
+      color: var(--text-secondary);
+      word-break: break-all;
+      padding: 10px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-inset);
+      transition: var(--transition);
+    }
+
+    #url:hover {
+      transform: translateY(-1px);
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    #response {
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      color: var(--text);
+      flex-grow: 1;
+      overflow-y: auto;
+      max-height: 250px;
+      box-shadow: var(--shadow-inset);
+      position: relative;
+      transition: var(--transition);
+    }
+
+    #response:hover {
+      transform: translateY(-1px);
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .skeleton-loader {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .skeleton-line {
+      height: 14px;
+      background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+      background-size: 200% 100%;
+      animation: skeleton 1.5s ease-in-out infinite;
+      border-radius: 4px;
+    }
+
+    .skeleton-line.short { width: 60%; }
+    .skeleton-line.medium { width: 80%; }
+    .skeleton-line.long { width: 100%; }
+
+    @keyframes skeleton {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .loading::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--primary);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error { color: var(--error); font-weight: 500; }
+    .success { color: var(--success); font-weight: 500; }
+    .message { color: var(--primary); font-weight: 500; }
+    .platform { color: var(--platform); font-weight: 500; }
+    .financial { color: var(--financial); font-weight: 500; }
+    .misleading { color: var(--misleading); font-weight: 500; }
+    .transcript { color: var(--text); font-weight: 500; }
+    .claims { color: var(--success); font-weight: 500; }
+    .sources { color: var(--sources); font-weight: 500; }
+
+    a {
+      color: var(--sources);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+      transform: translateY(-1px);
+    }
+
+    a:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .button {
+      padding: 10px 20px;
+      background: var(--card-bg);
+      color: var(--primary);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--shadow-poly);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      transition: 0.5s;
+    }
+
+    .button:hover::before {
+      left: 100%;
+    }
+
+    .button:hover {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .button:active {
+      box-shadow: var(--shadow-inset);
+      transform: translateY(0);
+    }
+
+    .button:focus {
+      outline: 2px solid var(--primary-hover);
+      outline-offset: 2px;
+    }
+
+    .button:disabled {
+      background: #374151;
+      color: #6b7280;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .copy-button {
+      background: transparent;
+      border: 1px solid var(--primary);
+    }
+
+    .button-container {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">FactFinit</div>
+    <div id="url" role="region" aria-label="Current URL">Loading URL...</div>
+    <div id="response" role="region" aria-label="Verification result">
+      <div class="skeleton-loader">
+        <div class="skeleton-line long"></div>
+        <div class="skeleton-line medium"></div>
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line long"></div>
+      </div>
+    </div>
+    <div class="button-container">
+      <button class="button" id="reverify">Re-verify URL</button>
+      <button class="button copy-button" id="copy-response" title="Copy response to clipboard">Copy Response</button>
+    </div>
+  </div>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
